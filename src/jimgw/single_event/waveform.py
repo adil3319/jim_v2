@@ -2,11 +2,40 @@ from abc import ABC
 
 import jax.numpy as jnp
 from jaxtyping import Array, Float
-from ripplegw.waveforms.IMRPhenomD import gen_IMRPhenomD_hphc, gen_IMRPhenomD_hphchb
+from ripplegw.waveforms.IMRPhenomD import gen_IMRPhenomD_hphc, gen_IMRPhenomD
 from ripplegw.waveforms.IMRPhenomPv2 import gen_IMRPhenomPv2_hphc
 from ripplegw.waveforms.TaylorF2 import gen_TaylorF2_hphc
 from ripplegw.waveforms.IMRPhenomD_NRTidalv2 import gen_IMRPhenomD_NRTidalv2_hphc
 
+def gen_IMRPhenomD_hphchb(f: Array, params: Array, f_ref: float):
+    """
+    Generate PhenomD frequency domain waveform following 1508.07253.
+    vars array contains both intrinsic and extrinsic variables
+    theta = [Mchirp, eta, chi1, chi2, D, tc, phic]
+    Mchirp: Chirp mass of the system [solar masses]
+    eta: Symmetric mass ratio [between 0.0 and 0.25]
+    chi1: Dimensionless aligned spin of the primary object [between -1 and 1]
+    chi2: Dimensionless aligned spin of the secondary object [between -1 and 1]
+    D: Luminosity distance to source [Mpc]
+    tc: Time of coalesence. This only appears as an overall linear in f contribution to the phase
+    phic: Phase of coalesence
+    inclination: Inclination angle of the binary [between 0 and PI]
+
+    f_ref: Reference frequency for the waveform
+
+    Returns:
+    --------
+      hp (array): Strain of the plus polarization
+      hc (array): Strain of the cross polarization
+    """
+    iota = params[7]
+    h0 = gen_IMRPhenomD(f, params, f_ref)
+
+    hp = h0 * (1 / 2 * (1 + jnp.cos(iota) ** 2))
+    hc = -1j * h0 * jnp.cos(iota)
+    hb = jnp.sqrt(3/2)* h0 * (jnp.sin(iota))**2
+
+    return hp, hc, hb
 
 class Waveform(ABC):
     def __init__(self):
