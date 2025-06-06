@@ -100,7 +100,7 @@ class RippleIMRPhenomD(Waveform):
                 params["iota"],
             ]
         )
-        hp, hc, hb = gen_IMRPhenomD_hphc(frequency, theta, self.f_ref)
+        hp, hc = gen_IMRPhenomD_hphc(frequency, theta, self.f_ref)
         output["p"] = hp
         output["c"] = hc
         return output
