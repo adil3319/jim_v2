@@ -18,6 +18,37 @@ class Waveform(ABC):
         return NotImplemented
 
 
+class RippleIMRPhenomD_scalarTensor(Waveform):
+    f_ref: float
+
+    def __init__(self, f_ref: float = 20.0, **kwargs):
+        self.f_ref = f_ref
+
+    def __call__(
+        self, frequency: Float[Array, " n_dim"], params: dict[str, Float]
+    ) -> dict[str, Float[Array, " n_dim"]]:
+        output = {}
+        theta = jnp.array(
+            [
+                params["M_c"],
+                params["eta"],
+                params["s1_z"],
+                params["s2_z"],
+                params["d_L"],
+                0,
+                params["phase_c"],
+                params["iota"],
+            ]
+        )
+        hp, hc, hb = gen_IMRPhenomD_hphchb(frequency, theta, self.f_ref)
+        output["p"] = hp
+        output["c"] = hc
+        output["b"] = hb
+        return output
+
+    def __repr__(self):
+        return f"RippleIMRPhenomD_scalarTensor(f_ref={self.f_ref})"
+
 class RippleIMRPhenomD(Waveform):
     f_ref: float
 
@@ -43,9 +74,7 @@ class RippleIMRPhenomD(Waveform):
         hp, hc, hb = gen_IMRPhenomD_hphc(frequency, theta, self.f_ref)
         output["p"] = hp
         output["c"] = hc
-        output["b"] = hb
         return output
-
     def __repr__(self):
         return f"RippleIMRPhenomD(f_ref={self.f_ref})"
 
