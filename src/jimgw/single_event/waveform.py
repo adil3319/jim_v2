@@ -18,7 +18,7 @@ class Waveform(ABC):
         return NotImplemented
 
 
-class RippleIMRPhenomD_scalarTensor(Waveform):
+class RippleIMRPhenomD_ScalarTensor(Waveform):
     f_ref: float
 
     def __init__(self, f_ref: float = 20.0, **kwargs):
