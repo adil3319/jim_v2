@@ -407,7 +407,7 @@ class HeterodynedTransientLikelihoodFD(TransientLikelihoodFD):
         align_time_center = jnp.exp(
             -1j * 2 * jnp.pi * frequencies_center * (self.epoch + params["t_c"])
         )
-       # print("Called evaluate()")
+        print("parameters : ",params)
         log_likelihood = self.rb_likelihood_function(
             params,
             self.A0_array,
