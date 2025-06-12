@@ -156,6 +156,8 @@ class BijectiveTransform(NtoNTransform):
                 The original dictionary.
         """
         y_copy = y.copy()
+        y_copy['zenith'] = 1.351982243293331 
+        y_copy['azimuth'] = 0.29971805331460377
         output_params = self.inverse_transform_func(y_copy)
         jax.tree.map(
             lambda key: y_copy.pop(key),
