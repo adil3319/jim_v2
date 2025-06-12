@@ -374,6 +374,8 @@ class DistanceToSNRWeightedDistanceTransform(ConditionalBijectiveTransform):
             return jnp.sqrt(R_dets2)
 
         def named_transform(x):
+            print("🚨 named_transform called with keys:", list(x.keys()))
+            print("🚨 named_transform full input x:", x)
             d_L, M_c = (
                 x["d_L"],
                 x["M_c"],
