@@ -139,9 +139,15 @@ class SkyFrameToDetectorFrameSkyPositionTransform(BijectiveTransform):
         self.rotation_inv = jnp.linalg.inv(self.rotation)
 
         def named_transform(x):
+            ra = 3.44536826
+            dec = -0.40
+            #modified
             zenith, azimuth = ra_dec_to_zenith_azimuth(
-                x["ra"], x["dec"], self.gmst, self.rotation
+                ra,dec, self.gmst, self.rotation
             )
+           # zenith, azimuth = ra_dec_to_zenith_azimuth(
+           #     x["ra"], x["dec"], self.gmst, self.rotation
+           # )
             return {"zenith": zenith, "azimuth": azimuth}
 
         self.transform_func = named_transform
@@ -205,8 +211,10 @@ class GeocentricArrivalTimeToDetectorArrivalTimeTransform(
             return self.ifo.delay_from_geocenter(ra, dec, gmst)
 
         def named_transform(x):
-
-            time_shift = time_delay(x["ra"], x["dec"], self.gmst)
+            ra = 3.44536826
+            dec = -0.40
+            time_shift = time_delay(ra, dec, self.gmst) # modified
+            # time_shift = time_delay(x["ra"], x["dec"], self.gmst)
 
             t_det = x["t_c"] + time_shift
             t_det_min = self.tc_min + time_shift
@@ -295,9 +303,15 @@ class GeocentricArrivalPhaseToDetectorArrivalPhaseTransform(
             return jnp.angle(p_mode_term - 1j * c_mode_term)
 
         def named_transform(x):
+            ra = 3.44536826
+            dec = -0.40
+            # modified
             R_det_arg = _calc_R_det_arg(
-                x["ra"], x["dec"], x["psi"], x["iota"], self.gmst
-            )
+                ra, dec, x["psi"], x["iota"], self.gmst
+            ) 
+           # R_det_arg = _calc_R_det_arg(
+           #     x["ra"], x["dec"], x["psi"], x["iota"], self.gmst
+           # )
             phase_det = R_det_arg + x["phase_c"] / 2.0
             return {
                 "phase_det": phase_det % (2.0 * jnp.pi),
