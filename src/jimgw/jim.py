@@ -132,6 +132,10 @@ class Jim(object):
                     guess = jax.vmap(transform.forward)(guess)
                 print("guess.shape 2 =", guess.keys())
                 print("parameter numbers :",self.parameter_names)
+                self.parameter_names = ['M_c_unbounded', 'q_unbounded', 's1_z_unbounded',
+                        's2_z_unbounded', 'iota_unbounded', 'd_hat_unbounded',
+                        't_det_unbounded', 'phase_det_unbounded', 'psi_unbounded']
+
                 guess = jnp.array(
                     jax.tree.leaves({key: guess[key] for key in self.parameter_names})
                 ).T
