@@ -324,7 +324,7 @@ class GeocentricArrivalPhaseToDetectorArrivalPhaseTransform(
         def named_inverse_transform(x):
             ra = 3.44536826
             dec = -0.40
-             R_det_arg = _calc_R_det_arg(
+            R_det_arg = _calc_R_det_arg(
                 ra, dec, x["psi"], x["iota"], self.gmst
             )
             # R_det_arg = _calc_R_det_arg(
