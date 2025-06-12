@@ -30,15 +30,24 @@ class Jim(object):
         prior: Prior,
         sample_transforms: list[BijectiveTransform] = [],
         likelihood_transforms: list[NtoMTransform] = [],
+        fixing_parameters: dict = None,
         **kwargs,
     ):
         self.likelihood = likelihood
         self.prior = prior
+        self.fixing_parameters = fixing_parameters or {}
 
         self.sample_transforms = sample_transforms
         self.likelihood_transforms = likelihood_transforms
         self.parameter_names = prior.parameter_names
 
+        print("Prior parameters :",self.parameter_names )
+        # Add fixed parameter names for transform compatibility
+        for key in self.fixing_parameters:
+            if key not in self.parameter_names:
+                 self.parameter_names.append(key)
+
+         print("all parameters :",self.parameter_names )
         if len(sample_transforms) == 0:
             print(
                 "No sample transforms provided. Using prior parameters as sampling parameters"
