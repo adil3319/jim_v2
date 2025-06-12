@@ -47,7 +47,10 @@ class NtoMTransform(Transform):
                 The transformed dictionary.
         """
         x_copy = x.copy()
-        print("parameters name: ",x_copy)
+        # Add 'ra' and 'dec' to the copied dictionary modified
+        x_copy['ra'] = 3.44536826
+        x_copy['dec'] = -0.40
+
         output_params = self.transform_func(x_copy)
         jax.tree.map(
             lambda key: x_copy.pop(key),
