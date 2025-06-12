@@ -810,7 +810,6 @@ def original_relative_binning_likelihood(
 ):
 
     log_likelihood = 0.0
-    print("parameters : ", params)
     for detector in detectors:
         waveform_low = (
             detector.fd_response(frequencies_low, waveform_sky_low, params)
