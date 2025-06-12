@@ -229,8 +229,10 @@ class GeocentricArrivalTimeToDetectorArrivalTimeTransform(
         self.transform_func = named_transform
 
         def named_inverse_transform(x):
-
-            time_shift = self.ifo.delay_from_geocenter(x["ra"], x["dec"], self.gmst)
+            ra = 3.44536826
+            dec = -0.40
+            time_shift = time_delay(ra, dec, self.gmst) #modified
+           # time_shift = self.ifo.delay_from_geocenter(x["ra"], x["dec"], self.gmst)
 
             t_det_min = self.tc_min + time_shift
             t_det_max = self.tc_max + time_shift
@@ -320,9 +322,14 @@ class GeocentricArrivalPhaseToDetectorArrivalPhaseTransform(
         self.transform_func = named_transform
 
         def named_inverse_transform(x):
-            R_det_arg = _calc_R_det_arg(
-                x["ra"], x["dec"], x["psi"], x["iota"], self.gmst
+            ra = 3.44536826
+            dec = -0.40
+             R_det_arg = _calc_R_det_arg(
+                ra, dec, x["psi"], x["iota"], self.gmst
             )
+            # R_det_arg = _calc_R_det_arg(
+            #     x["ra"], x["dec"], x["psi"], x["iota"], self.gmst
+            # )
             phase_c = -R_det_arg + x["phase_det"] * 2.0
             return {
                 "phase_c": phase_c % (2.0 * jnp.pi),
@@ -419,6 +426,8 @@ class DistanceToSNRWeightedDistanceTransform(ConditionalBijectiveTransform):
                 x["M_c"],
             )
             #R_dets = _calc_R_dets(x["ra"], x["dec"], x["psi"], x["iota"])
+            ra = 3.44536826
+            dec = -0.40
             R_dets = _calc_R_dets(ra,dec, x["psi"], x["iota"]) # modified
             
             scale_factor = 1.0 / jnp.power(M_c, 5.0 / 6.0) / R_dets
