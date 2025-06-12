@@ -127,14 +127,17 @@ class Jim(object):
 
                 key, subkey = jax.random.split(key)
                 guess = self.prior.sample(subkey, self.sampler.n_chains)
+                print("guess.shape 1 =", guess.shape)
                 for transform in self.sample_transforms:
                     guess = jax.vmap(transform.forward)(guess)
+                print("guess.shape 2 =", guess.shape)
+                print("parameter numbers :",self.parameter_names)
                 guess = jnp.array(
                     jax.tree.leaves({key: guess[key] for key in self.parameter_names})
                 ).T
 
                 print("initial_position.shape =", initial_position.shape)
-                print("guess.shape =", guess.shape)
+                print("guess.shape 3 =", guess.shape)
                 print("common_length =", min(len(jnp.where(jnp.all(jax.tree.map(lambda x: jnp.isfinite(x), guess), axis=1))[0]), len(non_finite_index)))
 
                 finite_guess = jnp.where(
