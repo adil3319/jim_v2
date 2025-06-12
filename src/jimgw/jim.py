@@ -129,23 +129,18 @@ class Jim(object):
                 guess = self.prior.sample(subkey, self.sampler.n_chains)
                 guess['ra'] = jnp.ones(self.sampler.n_chains) * 3.44
                 guess['dec'] = jnp.ones(self.sampler.n_chains) * -0.40
-                print("guess.shape 1 =", guess.keys())
+                
                 for transform in self.sample_transforms:
                     guess = jax.vmap(transform.forward)(guess)
-                print("guess.shape 2 =", guess.keys())
+                
                 self.parameter_names = ['M_c_unbounded', 'q_unbounded', 's1_z_unbounded',
                         's2_z_unbounded', 'iota_unbounded', 'd_hat_unbounded',
                         't_det_unbounded', 'phase_det_unbounded', 'psi_unbounded']
                 
-                print("parameter numbers :",self.parameter_names)
+                
                 guess = jnp.array(
                     jax.tree.leaves({key: guess[key] for key in self.parameter_names})
                 ).T
-
-                print("initial_position.shape =", initial_position.shape)
-                print("guess.shape 3 =", guess.shape)
-                print("common_length =", min(len(jnp.where(jnp.all(jax.tree.map(lambda x: jnp.isfinite(x), guess), axis=1))[0]), len(non_finite_index)))
-
                 finite_guess = jnp.where(
                     jnp.all(jax.tree.map(lambda x: jnp.isfinite(x), guess), axis=1)
                 )[0]
