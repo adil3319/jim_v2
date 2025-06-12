@@ -47,7 +47,7 @@ class Jim(object):
             if key not in self.parameter_names:
                  self.parameter_names.append(key)
 
-         print("all parameters :",self.parameter_names )
+        print("all parameters :",self.parameter_names )
         if len(sample_transforms) == 0:
             print(
                 "No sample transforms provided. Using prior parameters as sampling parameters"
