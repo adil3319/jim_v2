@@ -407,7 +407,6 @@ class HeterodynedTransientLikelihoodFD(TransientLikelihoodFD):
         align_time_center = jnp.exp(
             -1j * 2 * jnp.pi * frequencies_center * (self.epoch + params["t_c"])
         )
-        print("parameters : ",params)
         log_likelihood = self.rb_likelihood_function(
             params,
             self.A0_array,
@@ -811,7 +810,7 @@ def original_relative_binning_likelihood(
 ):
 
     log_likelihood = 0.0
-
+    print("parameters : ", params)
     for detector in detectors:
         waveform_low = (
             detector.fd_response(frequencies_low, waveform_sky_low, params)
