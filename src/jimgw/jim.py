@@ -127,10 +127,10 @@ class Jim(object):
 
                 key, subkey = jax.random.split(key)
                 guess = self.prior.sample(subkey, self.sampler.n_chains)
-                print("guess.shape 1 =", guess.shape)
+                print("guess.shape 1 =", guess.keys())
                 for transform in self.sample_transforms:
                     guess = jax.vmap(transform.forward)(guess)
-                print("guess.shape 2 =", guess.shape)
+                print("guess.shape 2 =", guess.keys())
                 print("parameter numbers :",self.parameter_names)
                 guess = jnp.array(
                     jax.tree.leaves({key: guess[key] for key in self.parameter_names})
