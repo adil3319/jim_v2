@@ -132,6 +132,11 @@ class Jim(object):
                 guess = jnp.array(
                     jax.tree.leaves({key: guess[key] for key in self.parameter_names})
                 ).T
+
+                print("initial_position.shape =", initial_position.shape)
+                print("guess.shape =", guess.shape)
+                print("common_length =", min(len(jnp.where(jnp.all(jax.tree.map(lambda x: jnp.isfinite(x), guess), axis=1))[0]), len(non_finite_index)))
+
                 finite_guess = jnp.where(
                     jnp.all(jax.tree.map(lambda x: jnp.isfinite(x), guess), axis=1)
                 )[0]
