@@ -145,6 +145,7 @@ class SkyFrameToDetectorFrameSkyPositionTransform(BijectiveTransform):
             zenith, azimuth = ra_dec_to_zenith_azimuth(
                 ra,dec, self.gmst, self.rotation
             )
+            print("zenith, azimuth:",zenith, azimuth)
            # zenith, azimuth = ra_dec_to_zenith_azimuth(
            #     x["ra"], x["dec"], self.gmst, self.rotation
            # )
