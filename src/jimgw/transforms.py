@@ -124,7 +124,7 @@ class BijectiveTransform(NtoNTransform):
                 The log Jacobian determinant.
         """
         y_copy = y.copy()
-        print("y copy parameters:", y_copy)
+        print("name mapping parameters:", self.name_mapping[1])
         transform_params = dict((key, y_copy[key]) for key in self.name_mapping[1])
         output_params = self.inverse_transform_func(transform_params)
         jacobian = jax.jacfwd(self.inverse_transform_func)(transform_params)
