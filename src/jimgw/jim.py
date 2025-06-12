@@ -101,6 +101,10 @@ class Jim(object):
 
     def posterior(self, params: Float[Array, " n_dim"], data: dict):
         named_params = self.add_name(params)
+        named_params.update(self.fixing_parameters)
+        # Print fixed parameters inside posterior
+        jax.debug.print("Fixed params: ra={ra}, dec={dec}", ra=named_params.get("ra", None), dec=named_params.get("dec", None))
+
         transform_jacobian = 0.0
         for transform in reversed(self.sample_transforms):
             named_params, jacobian = transform.inverse(named_params)
