@@ -270,4 +270,5 @@ waveform_preset = {
     "RippleIMRPhenomPv2": RippleIMRPhenomPv2,
     "RippleTaylorF2": RippleTaylorF2,
     "RippleIMRPhenomD_NRTidalv2": RippleIMRPhenomD_NRTidalv2,
+    "RippleIMRPhenomD_ScalarTensor":RippleIMRPhenomD_ScalarTensor,
 }
